@@ -131,6 +131,45 @@ namespace Tracker.Objects
             return foundVenue;
         }
 
+        public void AddBand(Band newBand)
+       {
+           SqlConnection conn = DB.Connection();
+           conn.Open();
+
+           SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (band_id, venue_id) VALUES (@BandId, @VenueId);", conn);
+
+           SqlParameter bandIdParameter = new SqlParameter("@BandId", this.GetId());
+           SqlParameter venueIdParameter = new SqlParameter("@VenueId", newBand.GetId());
+
+           cmd.Parameters.Add(bandIdParameter);
+           cmd.Parameters.Add(venueIdParameter);
+
+           cmd.ExecuteNonQuery();
+
+           if (conn != null)
+           {
+               conn.Close();
+           }
+       }
+
+       public void DeleteSingle()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("DELETE FROM venues WHERE id = @VenueId; DELETE FROM bands_venues WHERE venue_id = @VenueId", conn);
+
+            SqlParameter nameParameter = new SqlParameter("@VenueId", this.GetId());
+            cmd.Parameters.Add(nameParameter);
+
+            cmd.ExecuteNonQuery();
+
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
+
 
         public static void DeleteAll()
         {

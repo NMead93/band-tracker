@@ -33,6 +33,21 @@ namespace Tracker
            Assert.Equal(tempVenue, Venue.Find(tempVenue.GetId()));
        }
 
+       [Fact]
+        public void TEST_DeleteSingle_DeleteSingleVenueFromExistence()
+        {
+            Venue tempVenue = new Venue("Hilton");
+            tempVenue.Save();
+            Venue tempVenue2 = new Venue("White House");
+            tempVenue2.Save();
+            Band hefner = new Band("hefner");
+            hefner.Save();
+            tempVenue.AddBand(hefner);
+            tempVenue.DeleteSingle();
+            List<Venue> testList = new List<Venue>{tempVenue2};
+            Assert.Equal(testList, Venue.GetAll());
+        }
+
         public void Dispose()
         {
             Band.DeleteAll();
