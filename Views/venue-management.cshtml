@@ -14,7 +14,12 @@
                         <li class="collection-item"><i class="material-icons">assignment_id</i>@band.GetName()</li>
                     }
                 </ul><br>
-                <a name="button" class="btn" href="/venues/@venue.GetId()">View Info</a>
+                <a name="button" class="btn" href="/venues/@venue.GetId()">View Info</a><br>
+                <form action="/venues" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="venue-id" value="@venue.GetId()"><br>
+                    <button type="submit" name="button" class="btn">Remove Venue</button>
+                </form>
             </div>
         </li>
     }

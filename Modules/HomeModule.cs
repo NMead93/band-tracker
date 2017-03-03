@@ -30,6 +30,20 @@ namespace Tracker
             return View["venue-management", Venue.GetAll()];
         };
 
+        Delete["/venues"] =_=> {
+            Venue foundVenue = Venue.Find(Request.Form["venue-id"]);
+            List<Band> bandsOfVenue = foundVenue.GetBands();
+            foundVenue.DeleteSingle();
+            foreach(var band in bandsOfVenue)
+            {
+                if (!Band.PlayingInVenue(band.GetId()))
+                {
+                    band.DeleteSingle();
+                }
+            }
+            return View["venue-management", Venue.GetAll()];
+        };
+
         Get["/venues/{id}"] =parameter=> {
             Venue foundVenue = Venue.Find(parameter.id);
             return View["single-venue.cshtml", foundVenue];
@@ -41,7 +55,7 @@ namespace Tracker
             if(!Band.CheckExistence(newBand.GetName()))
             {
                 newBand.Save();
-                foundVenue.AddBand(newBand)
+                foundVenue.AddBand(newBand);
             }
             else
             {
