@@ -33,6 +33,22 @@ namespace Tracker
            Assert.Equal(tempBand, Band.Find(tempBand.GetId()));
        }
 
+       [Fact]
+       public void Test_GetVenues()
+       {
+           Band tempBand = new Band("temp");
+           tempBand.Save();
+           Venue tempVenue = new Venue("venue1");
+           Venue tempVenue2 = new Venue("venue2");
+           tempVenue.Save();
+           tempVenue2.Save();
+           tempVenue.AddBand(tempBand);
+           tempVenue2.AddBand(tempBand);
+           List<Venue> expected = new List<Venue>{tempVenue, tempVenue2};
+           List<Venue> actual = tempBand.GetVenues();
+           Assert.Equal(expected, actual);
+       }
+
         public void Dispose()
         {
             Band.DeleteAll();
