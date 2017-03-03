@@ -24,7 +24,14 @@ namespace Tracker
             Assert.Equal(allBands, Band.GetAll());
         }
 
+        [Fact]
+       public void TEST_FindReturnsBand()
+       {
+           Band tempBand = new Band("Rock Hard");
+           tempBand.Save();
 
+           Assert.Equal(tempBand, Band.Find(tempBand.GetId()));
+       }
 
         public void Dispose()
         {

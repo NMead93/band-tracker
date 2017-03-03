@@ -24,7 +24,14 @@ namespace Tracker
             Assert.Equal(allVenues, Venue.GetAll());
         }
 
+        [Fact]
+       public void TEST_FindReturnsVenue()
+       {
+           Venue tempVenue = new Venue("Grand Palace");
+           tempVenue.Save();
 
+           Assert.Equal(tempVenue, Venue.Find(tempVenue.GetId()));
+       }
 
         public void Dispose()
         {
