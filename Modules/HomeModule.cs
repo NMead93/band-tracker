@@ -18,6 +18,12 @@ namespace Tracker
             return View["venue-management.cshtml", Venue.GetAll()];
         };
 
+        Post["/venues"] =_=> {
+            Venue newVenue = new Venue(Request.Form["venue-name"]);
+            newVenue.Save();
+            return View["venue-management", Venue.GetAll()];
+        };
+
         Get["/bands"] =_=> {
             return View["band-management-cshtml", Band.GetAll()];
         };
