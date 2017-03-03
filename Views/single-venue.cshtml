@@ -44,6 +44,10 @@
         <button type="submit" name="button" class="waves-effect waves-light btn">Add Band</button>
     </form>
     <form class="col s4" action="/venues/@Model.GetId()" method="post">
-
+        <input type="hidden" name="_method" value="PATCH">
+          <input name="venue-id" type="hidden" value="@Model.GetId()">
+          <label for="venue-name">New Venue Name</label>
+          <input id="venue-name" name="venue-name" type="text" placeholder="New Name">
+          <button type="submit" class="btn">Submit</button>
     </form>
 </div>

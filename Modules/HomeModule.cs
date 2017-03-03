@@ -76,6 +76,12 @@ namespace Tracker
             return View["single-venue.cshtml", foundVenue];
         };
 
+        Patch["/venues/{id}"] =parameter=> {
+            Venue foundVenue = Venue.Find(parameter.id);
+            foundVenue.Update(Request.Form["venue-name"]);
+            return View["single-venue.cshtml", foundVenue];
+        };
+
         Get["/bands"] =_=> {
             return View["band-management.cshtml", Band.GetAll()];
         };
