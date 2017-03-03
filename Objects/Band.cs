@@ -164,6 +164,53 @@ namespace Tracker.Objects
             return foundBand;
         }
 
+        public static bool CheckExistence(string name)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM bands WHERE name = @BandName;", conn);
+
+            SqlParameter nameParameter = new SqlParameter("@BandName", name);
+            cmd.Parameters.Add(nameParameter);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+            bool exists = false;
+
+            while (rdr.Read())
+            {
+                exists = true;
+            }
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+            return exists;
+        }
+
+        public void DeleteSingle()
+         {
+             SqlConnection conn = DB.Connection();
+             conn.Open();
+
+             SqlCommand cmd = new SqlCommand("DELETE FROM bands WHERE id = @BandId; DELETE FROM bands_venues WHERE band_id = @BandId;", conn);
+
+             SqlParameter nameParameter = new SqlParameter("@BandId", this.GetId());
+             cmd.Parameters.Add(nameParameter);
+
+             cmd.ExecuteNonQuery();
+
+             if(conn != null)
+             {
+                 conn.Close();
+             }
+         }
+
         public static void DeleteAll()
         {
             SqlConnection conn = DB.Connection();

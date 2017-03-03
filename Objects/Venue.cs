@@ -221,13 +221,32 @@ namespace Tracker.Objects
          }
        }
 
+       public void DeleteBandFromVenue(Band band)
+       {
+           SqlConnection conn = DB.Connection();
+           conn.Open();
+
+           SqlCommand cmd = new SqlCommand("DELETE FROM bands_venues WHERE band_id = @BandId AND venue_id = @VenueId;", conn);
+
+           SqlParameter bandParameter = new SqlParameter("@BandId", band.GetId());
+           SqlParameter venueParameter = new SqlParameter("@VenueId", this.GetId());
+           cmd.Parameters.Add(bandParameter);
+           cmd.Parameters.Add(venueParameter);
+
+           cmd.ExecuteNonQuery();
+           if(conn != null)
+           {
+               conn.Close();
+           }
+       }
+
 
        public void DeleteSingle()
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("DELETE FROM venues WHERE id = @VenueId; DELETE FROM bands_venues WHERE venue_id = @VenueId", conn);
+            SqlCommand cmd = new SqlCommand("DELETE FROM venues WHERE id = @VenueId; DELETE FROM bands_venues WHERE venue_id = @VenueId;", conn);
 
             SqlParameter nameParameter = new SqlParameter("@VenueId", this.GetId());
             cmd.Parameters.Add(nameParameter);

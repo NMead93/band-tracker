@@ -37,6 +37,13 @@ namespace Tracker
             return View["single-venue.cshtml", foundVenue];
         };
 
+        Delete["/venues/{id}"] =parameter=> {
+            Venue foundVenue = Venue.Find(parameter.id);
+            Band foundBand = Band.Find(Request.Form["band-id"]);
+            foundVenue.DeleteBandFromVenue(foundBand);
+            return View["single-venue.cshtml", foundVenue];
+        };
+
         Get["/bands"] =_=> {
             return View["band-management-cshtml", Band.GetAll()];
         };

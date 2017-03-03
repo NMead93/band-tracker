@@ -18,20 +18,32 @@
             </div>
         </div>
         <div class="col s6">
-            <div class="collection">
+            <ul class="collapsible" data-collapsible="accordion">
                 @foreach(var band in Model.GetBands())
                 {
-                    <a href="/bands/@band.GetId()" class="collection-item">@band.GetName()</a>
+                    <li>
+                        <div class="collapsible-header">@band.GetName()</div>
+                        <div class="collapsible-body">
+                            <form action="/venues/@Model.GetId()" method="post">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="band-id" value="@band.GetId()">
+                                <button type="submit" name="button" class="btn">Remove From Venue</button>
+                            </form>
+                        </div>
+                    </li>
                 }
-            </div>
+            </ul>
         </div>
     </div><br>
 <div class="row">
-    <form class="col s12" action="/venues/@Model.GetId()" method="post">
+    <form class="col s6" action="/venues/@Model.GetId()" method="post">
         <div class="input-field">
             <input type="text" name="band-name" placeholder="Band Name">
             <label for="band-name">Name of Band</label>
         </div>
-        <button type="submit" name="button">Add Band</button>
+        <button type="submit" name="button" class="waves-effect waves-light btn">Add Band</button>
+    </form>
+    <form class="col s4" action="/venues/@Model.GetId()" method="post">
+
     </form>
 </div>

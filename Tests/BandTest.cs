@@ -49,6 +49,22 @@ namespace Tracker
            Assert.Equal(expected, actual);
        }
 
+       [Fact]
+       public void Test_CheckExistence_True()
+       {
+           Band tempBand = new Band("temp");
+           tempBand.Save();
+           Assert.Equal(true, Band.CheckExistence("temp"));
+       }
+
+       [Fact]
+       public void Test_CheckExistence_False()
+       {
+           Band tempBand = new Band("temp2");
+           tempBand.Save();
+           Assert.Equal(false, Band.CheckExistence("temp"));
+       }
+
         public void Dispose()
         {
             Band.DeleteAll();
