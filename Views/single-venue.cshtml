@@ -1,9 +1,9 @@
 @{
-    Layout = "Shared/_Layout.cshtml"
+    Layout = "Shared/_Layout.cshtml";
 }
 
 <div class="row">
-    <div class="col s12 m7">
+    <div class="col s6">
         <div class="card">
             <div class="card-image">
                 <img src="~/Content/images/example.jpg">
@@ -17,4 +17,21 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col s6">
+            <div class="collection">
+                @foreach(var band in Model.GetBands())
+                {
+                    <a href="/bands/@band.GetId()" class="collection-item">@band.GetName()</a>
+                }
+            </div>
+        </div>
+    </div><br>
+<div class="row">
+    <form class="col s12" action="/venues/@Model.GetId()" method="post">
+        <div class="input-field">
+            <input type="text" name="band-name" placeholder="Band Name">
+            <label for="band-name">Name of Band</label>
+        </div>
+        <button type="submit" name="button">Add Band</button>
+    </form>
+</div>

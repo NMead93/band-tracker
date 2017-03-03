@@ -24,9 +24,24 @@ namespace Tracker
             return View["venue-management", Venue.GetAll()];
         };
 
+        Get["/venues/{id}"] =parameter=> {
+            Venue foundVenue = Venue.Find(parameter.id);
+            return View["single-venue.cshtml", foundVenue];
+        };
+
+        Post["/venues/{id}"] =parameter=> {
+            Venue foundVenue = Venue.Find(parameter.id);
+            Band newBand = new Band(Request.Form["band-name"]);
+            newBand.Save();
+            foundVenue.AddBand(newBand);
+            return View["single-venue.cshtml", foundVenue];
+        };
+
         Get["/bands"] =_=> {
             return View["band-management-cshtml", Band.GetAll()];
         };
+
+
     }
   }
 }

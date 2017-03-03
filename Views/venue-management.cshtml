@@ -8,13 +8,13 @@
         <li>
             <div class="collapsible-header"><i class="material-icons">store</i>@venue.GetName()</div>
             <div class="collapsible-body">
-                <ul>
+                <ul class="collection">
                     @foreach(var band in @venue.GetBands())
                     {
-                        <li><i class="material-icons">assignment_id</i>@band.GetName</li>
+                        <li class="collection-item"><i class="material-icons">assignment_id</i>@band.GetName()</li>
                     }
-                </ul>
-                <button type="button" name="button" class="btn" href="/venues/@venue.GetId()">View Info</button>
+                </ul><br>
+                <a name="button" class="btn" href="/venues/@venue.GetId()">View Info</a>
             </div>
         </li>
     }
