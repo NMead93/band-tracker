@@ -41,6 +41,40 @@ namespace Tracker.Objects
             }
         }
 
+        public List<Band> GetBands()
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT bands.* FROM venues JOIN bands_venues ON (venues.id = bands_venues.venue_id) JOIN bands ON (bands_venues.band_id = bands.id) WHERE venues.id = @VenueId;", conn);
+
+            SqlParameter VenueId = new SqlParameter("@VenueId", this.GetId().ToString());
+
+            cmd.Parameters.Add(VenueId);
+            SqlDataReader rdr = cmd.ExecuteReader();
+            List<Band> bandList = new List<Band>{};
+
+            while(rdr.Read())
+            {
+                int bandId = rdr.GetInt32(0);
+                string bandName = rdr.GetString(1);
+
+                Band tempBand = new Band(bandName, bandId);
+                bandList.Add(tempBand);
+            }
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+            return bandList;
+        }
+
+
         public static List<Venue> GetAll()
         {
             List<Venue> VenueList = new List<Venue> {};
@@ -138,8 +172,8 @@ namespace Tracker.Objects
 
            SqlCommand cmd = new SqlCommand("INSERT INTO bands_venues (band_id, venue_id) VALUES (@BandId, @VenueId);", conn);
 
-           SqlParameter bandIdParameter = new SqlParameter("@BandId", this.GetId());
-           SqlParameter venueIdParameter = new SqlParameter("@VenueId", newBand.GetId());
+           SqlParameter bandIdParameter = new SqlParameter("@BandId", newBand.GetId());
+           SqlParameter venueIdParameter = new SqlParameter("@VenueId", this.GetId());
 
            cmd.Parameters.Add(bandIdParameter);
            cmd.Parameters.Add(venueIdParameter);
@@ -211,7 +245,7 @@ namespace Tracker.Objects
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
-            SqlCommand cmd = new SqlCommand("DELETE FROM venues;", conn);
+            SqlCommand cmd = new SqlCommand("DELETE FROM venues; DELETE FROM bands_venues", conn);
             cmd.ExecuteNonQuery();
             conn.Close();
         }

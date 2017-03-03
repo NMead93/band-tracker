@@ -42,7 +42,6 @@ namespace Tracker
             tempVenue2.Save();
             Band hefner = new Band("hefner");
             hefner.Save();
-            tempVenue.AddBand(hefner);
             tempVenue.DeleteSingle();
             List<Venue> testList = new List<Venue>{tempVenue2};
             Assert.Equal(testList, Venue.GetAll());
@@ -64,6 +63,22 @@ namespace Tracker
 
           //Assert
           Assert.Equal(newName, result);
+        }
+
+        [Fact]
+        public void Test_GetBands_GetBandsOfVenue()
+        {
+            Band hardy = new Band("hardy");
+            hardy.Save();
+            Band testBand = new Band("testBand");
+            testBand.Save();
+            Venue testVenue = new Venue("testVenue");
+            testVenue.Save();
+            testVenue.AddBand(hardy);
+            testVenue.AddBand(testBand);
+            List<Band> expected = new List<Band>{hardy, testBand};
+            List<Band> actual =  testVenue.GetBands();
+            Assert.Equal(expected, actual);
         }
 
         public void Dispose()
