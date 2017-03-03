@@ -65,6 +65,17 @@ namespace Tracker
            Assert.Equal(false, Band.CheckExistence("temp"));
        }
 
+       [Fact]
+       public void Test_PlayingInVenue_True()
+       {
+           Band tempBand = new Band("temp");
+           tempBand.Save();
+           Venue testVenue = new Venue("test");
+           testVenue.Save();
+           testVenue.AddBand(tempBand);
+           Assert.Equal(true, Band.PlayingInVenue(tempBand.GetId()));
+       }
+
         public void Dispose()
         {
             Band.DeleteAll();

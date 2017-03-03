@@ -234,6 +234,7 @@ namespace Tracker.Objects
            cmd.Parameters.Add(venueParameter);
 
            cmd.ExecuteNonQuery();
+
            if(conn != null)
            {
                conn.Close();

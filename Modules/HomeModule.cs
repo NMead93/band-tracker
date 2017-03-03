@@ -14,6 +14,12 @@ namespace Tracker
             return View["index.cshtml"];
         };
 
+        Delete["/"] =_=> {
+            Band.DeleteAll();
+            Venue.DeleteAll();
+            return View["index.cshtml"];
+        };
+
         Get["/venues"] =_=> {
             return View["venue-management.cshtml", Venue.GetAll()];
         };
@@ -32,8 +38,16 @@ namespace Tracker
         Post["/venues/{id}"] =parameter=> {
             Venue foundVenue = Venue.Find(parameter.id);
             Band newBand = new Band(Request.Form["band-name"]);
-            newBand.Save();
-            foundVenue.AddBand(newBand);
+            if(!Band.CheckExistence(newBand.GetName()))
+            {
+                newBand.Save();
+                foundVenue.AddBand(newBand)
+            }
+            else
+            {
+                Band foundBand = Band.FindByName(Request.Form["band-name"]);
+                foundVenue.AddBand(foundBand);
+            }
             return View["single-venue.cshtml", foundVenue];
         };
 
@@ -41,11 +55,15 @@ namespace Tracker
             Venue foundVenue = Venue.Find(parameter.id);
             Band foundBand = Band.Find(Request.Form["band-id"]);
             foundVenue.DeleteBandFromVenue(foundBand);
+            if (!Band.PlayingInVenue(foundBand.GetId()))
+            {
+                foundBand.DeleteSingle();
+            }
             return View["single-venue.cshtml", foundVenue];
         };
 
         Get["/bands"] =_=> {
-            return View["band-management-cshtml", Band.GetAll()];
+            return View["band-management.cshtml", Band.GetAll()];
         };
 
 

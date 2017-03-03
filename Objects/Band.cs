@@ -164,6 +164,68 @@ namespace Tracker.Objects
             return foundBand;
         }
 
+        public static Band FindByName(string name)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM bands WHERE name = @BandName;", conn);
+            SqlParameter bandNameParameter = new SqlParameter();
+            bandNameParameter.ParameterName = "@BandName";
+            bandNameParameter.Value = name;
+            cmd.Parameters.Add(bandNameParameter);
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int foundBandId = 0;
+            string foundBandName = null;
+
+            while (rdr.Read())
+            {
+                foundBandId = rdr.GetInt32(0);
+                foundBandName = rdr.GetString(1);
+            }
+            Band foundBand = new Band(foundBandName, foundBandId);
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+            return foundBand;
+        }
+
+        public static bool PlayingInVenue(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM bands_venues WHERE band_id = @BandId;", conn);
+
+            SqlParameter idParameter = new SqlParameter("@BandId", id);
+            cmd.Parameters.Add(idParameter);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+            bool exists = false;
+
+            while (rdr.Read())
+            {
+                exists = true;
+            }
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+            return exists;
+        }
+
         public static bool CheckExistence(string name)
         {
             SqlConnection conn = DB.Connection();

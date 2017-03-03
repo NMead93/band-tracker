@@ -9,9 +9,9 @@
             <div class="collapsible-header"><i class="material-icons">store</i>@band.GetName()</div>
             <div class="collapsible-body">
                 <ul class="collection">
-                    @foreach(var venue in @venue.GetVenues())
+                    @foreach(var venue in @band.GetVenues())
                     {
-                        <a class="btn" href="/venues/@venue.GetId()"><li class="collection-item"><i class="material-icons">assignment_id</i>@Venue.GetName()</li></a>
+                        <a class="btn" href="/venues/@venue.GetId()"><li class="collection-item"><i class="material-icons">assignment_id</i>@venue.GetName()</li></a>
                     }
                 </ul><br>
 
