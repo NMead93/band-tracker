@@ -48,6 +48,24 @@ namespace Tracker
             Assert.Equal(testList, Venue.GetAll());
         }
 
+        [Fact]
+        public void Test_Update_UpdatesVenueInDatabase()
+        {
+          //Arrange
+          string name = "Mag";
+          Venue testVenue = new Venue(name);
+          testVenue.Save();
+          string newName = "meg";
+
+          //Act
+          testVenue.Update(newName);
+
+          string result = testVenue.GetName();
+
+          //Assert
+          Assert.Equal(newName, result);
+        }
+
         public void Dispose()
         {
             Band.DeleteAll();
