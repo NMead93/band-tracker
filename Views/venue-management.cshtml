@@ -1,0 +1,29 @@
+@{
+    Layout = "Shared/_Layout.cshtml";
+}
+
+<ul class="collapsible popout" data-collapsible="accordion">
+    @foreach(var venue in Model)
+    {
+        <li>
+            <div class="collapsible-header"><i class="material-icons">store</i>@venue.GetName()</div>
+            <div class="collapsible-body">
+                <ul>
+                    @foreach(var band in @venue.GetBands())
+                    {
+                        <li><i class="material-icons">assignment_id</i>@band.GetName</li>
+                    }
+                </ul>
+                <button type="button" name="button" class="btn" href="/venues/@venue.GetId()">View Info</button>
+            </div>
+        </li>
+    }
+</ul><br><br>
+
+ <form class="col s12" action="/venues" method="post">
+     <div class="input-field">
+         <input type="text" name="band-name" placeholder="Band Name">
+         <label for="band-name">Name of Band</label>
+     </div>
+     <button type="submit" name="button">Add Band</button>
+ </form>
